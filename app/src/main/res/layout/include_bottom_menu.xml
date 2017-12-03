@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <RadioGroup
+        android:id="@+id/rg_cookBook_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_bg"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_food"
+            style="@style/radio_group"
+            android:checked="true"
+            android:drawableTop="@drawable/food"
+            android:text="美食推荐"
+            android:textColor="@drawable/text_color" />
+
+        <RadioButton
+            android:id="@+id/rb_classify"
+            style="@style/radio_group"
+            android:drawableTop="@drawable/classify"
+            android:text="菜谱大全"
+            android:textColor="@drawable/text_color" />
+
+        <RadioButton
+            android:id="@+id/rb_share"
+            style="@style/radio_group"
+            android:drawableTop="@drawable/share"
+            android:text="邻里厨房"
+            android:textColor="@drawable/text_color"/>
+
+        <RadioButton
+            android:id="@+id/rb_more"
+            style="@style/radio_group"
+            android:drawableTop="@drawable/more"
+            android:text="更多"
+            android:textColor="@drawable/text_color"/>
+    </RadioGroup>
+
+</LinearLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/acitonBar_more"
+        layout="@layout/include_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <RelativeLayout
+                android:id="@+id/rl_my_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_header"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_my_default_head" />
+
+                <TextView
+                    android:id="@+id/tv_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@+id/iv_header"
+                    android:gravity="center_vertical"
+                    android:text="点击登陆"
+                    android:textColor="#000"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/tv_signature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/tv_username"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@+id/iv_header"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="据说登陆的人做饭更好吃"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+
+            <Button
+                android:id="@+id/btn_quit"
+                android:layout_width="200dp"
+                android:layout_height="36dp"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/rl_my_setting"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/selector_login_button"
+                android:text="退出当前账号"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+    </ScrollView>
+
+</LinearLayout>
