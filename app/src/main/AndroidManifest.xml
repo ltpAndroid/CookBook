@@ -34,6 +34,7 @@
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.PersonalActivity" />
+        <activity android:name=".activity.ShowCookeryActivity"></activity>
     </application>
 
 </manifest>
