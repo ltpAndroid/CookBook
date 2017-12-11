@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.tarena.cookbook"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -51,5 +51,5 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.10'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.github.pinguo-zhouwei:CustomPopwindow:2.1.1'
-
+    compile 'com.carson_ho:SearchLayout:1.0.1'
 }

@@ -9,7 +9,7 @@
         android:id="@+id/tv_gridView_text"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/main_menu_item_bg"
+        android:background="@drawable/edittext_background"
         android:gravity="center"
         android:padding="5dp" />
 </LinearLayout>

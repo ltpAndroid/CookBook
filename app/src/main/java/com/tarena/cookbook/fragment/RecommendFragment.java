@@ -1,17 +1,23 @@
 package com.tarena.cookbook.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.tarena.cookbook.R;
+import com.tarena.cookbook.activity.SearchActivity;
+import com.tarena.cookbook.activity.ShowCookeryActivity;
 import com.tarena.cookbook.adapter.CategoryAdapter;
 import com.tarena.cookbook.entity.Category;
 import com.youth.banner.Banner;
@@ -20,9 +26,7 @@ import com.youth.banner.Transformer;
 import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,13 +36,15 @@ import butterknife.Unbinder;
  * Created by Administrator on 2017/10/15 0015.
  */
 
-public class RecommendFragment extends BaseFragment {
+public class RecommendFragment extends Fragment {
 
     @BindView(R.id.banner)
     Banner banner;
     Unbinder unbinder;
     @BindView(R.id.gv_category)
     GridView gvCategory;
+    @BindView(R.id.ll_search)
+    LinearLayout llSearch;
 
     private TextView tvShow;
     private ImageView ivAddMenu;
@@ -49,7 +55,7 @@ public class RecommendFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        contentView = inflater.inflate(R.layout.fragment_recommend, container, false);
+        View contentView = inflater.inflate(R.layout.fragment_recommend, container, false);
         unbinder = ButterKnife.bind(this, contentView);
 
         initData();
@@ -78,15 +84,28 @@ public class RecommendFragment extends BaseFragment {
 
 
     private void setListener() {
+        gvCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), ShowCookeryActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", position + 1);
+                bundle.putString("title", categoryList.get(position).getTitle());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
 
-
+        llSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    @Override
     protected void initialUI() {
-        actionBar = contentView.findViewById(R.id.acitonBar_recommend);
-        initialActionBar(R.drawable.add_menu, "美食推荐");
-        ivAddMenu = contentView.findViewById(R.id.iv_actionBar_left);
 
         //设置banner样式
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
