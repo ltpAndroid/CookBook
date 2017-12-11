@@ -50,8 +50,8 @@ public class RecommendFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         contentView = inflater.inflate(R.layout.fragment_recommend, container, false);
-
         unbinder = ButterKnife.bind(this, contentView);
+
         initData();
         initialUI();
         setListener();
