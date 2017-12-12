@@ -8,7 +8,7 @@
         android:id="@+id/acitonBar_more"
         layout="@layout/include_actionbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="?actionBarSize" />
 
     <ScrollView
         android:layout_width="match_parent"

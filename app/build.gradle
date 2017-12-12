@@ -52,4 +52,5 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.github.pinguo-zhouwei:CustomPopwindow:2.1.1'
     compile 'com.carson_ho:SearchLayout:1.0.1'
+    compile 'com.zt.maven.widget:refreshview:1.0.2'
 }
