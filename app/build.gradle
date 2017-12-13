@@ -43,7 +43,7 @@ dependencies {
     //以下SDK开发者请根据需要自行选择
     //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
     //3.5.8：请务必查看下面注释[1]
-    compile 'cn.bmob.android:bmob-sdk:3.5.8'
+    compile 'cn.bmob.android:bmob-sdk:3.5.0'
 
     compile 'com.github.LuckSiege.PictureSelector:picture_library:v2.1.6'
     compile 'com.squareup.picasso:picasso:2.5.2'
@@ -53,4 +53,5 @@ dependencies {
     compile 'com.github.pinguo-zhouwei:CustomPopwindow:2.1.1'
     compile 'com.carson_ho:SearchLayout:1.0.1'
     compile 'com.zt.maven.widget:refreshview:1.0.2'
+    //compile 'com.squareup.okhttp3:okhttp:3.9.1'
 }

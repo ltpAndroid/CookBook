@@ -11,11 +11,14 @@ import android.widget.TextView;
 import com.tarena.cookbook.activity.MessageActivity;
 import com.tarena.cookbook.R;
 
+import okio.Okio;
+
 /**
  * Created by Administrator on 2017/10/15 0015.
  */
 
 public abstract  class BaseFragment extends Fragment {
+
     protected LinearLayout actionBar;
     protected View contentView;
 
