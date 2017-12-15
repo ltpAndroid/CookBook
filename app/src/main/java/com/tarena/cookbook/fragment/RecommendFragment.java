@@ -23,6 +23,7 @@ import com.tarena.cookbook.entity.Category;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class RecommendFragment extends Fragment {
     private TextView tvShow;
     private ImageView ivAddMenu;
     List<String> imagePaths;
+    List<String> titles;
     private List<Category> categoryList = new ArrayList<>();
     private CategoryAdapter adapter;
 
@@ -68,6 +70,10 @@ public class RecommendFragment extends Fragment {
         imagePaths = new ArrayList<>();
         imagePaths.add("http://bmob-cdn-14961.b0.upaiyun.com/2017/11/30/8586e90e53c1497ba53d69360465b127.jpeg");
         imagePaths.add("http://bmob-cdn-14961.b0.upaiyun.com/2017/11/29/62a7fe512dc04882b413d3c2921c5c40.png");
+
+        titles = new ArrayList<>();
+        titles.add("蛋");
+        titles.add("肉");
 
         categoryList.clear();
         categoryList.add(0, new Category(R.drawable.chinese_cooking, "家常菜"));
@@ -103,12 +109,24 @@ public class RecommendFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                Intent intent = new Intent(getActivity(),ShowCookeryActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("title", titles.get(position));
+                bundle.putString("search_key",titles.get(position));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     protected void initialUI() {
 
         //设置banner样式
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
         //设置图片加载器
         banner.setImageLoader(new GlideImageLoader());
         //设置图片集合
@@ -116,7 +134,7 @@ public class RecommendFragment extends Fragment {
         //设置banner动画效果
         banner.setBannerAnimation(Transformer.DepthPage);
         //设置标题集合（当banner样式有显示title时）
-        //banner.setBannerTitles(titles);
+        banner.setBannerTitles(titles);
         //设置自动轮播，默认为true
         banner.isAutoPlay(true);
         //设置轮播时间

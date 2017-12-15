@@ -12,31 +12,31 @@ import com.squareup.picasso.Picasso;
 import com.tarena.cookbook.R;
 import com.tarena.cookbook.entity.ShowCookersInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/12/13 0013.
  */
 
 public class CookItemAdapter extends BaseAdapter {
 
-    private ShowCookersInfo adapterInfo;
+    private List<ShowCookersInfo.Result.Data> adapterInfo = new ArrayList<>();
     private Context context;
 
-    public CookItemAdapter(Context context,ShowCookersInfo adapterInfo) {
+    public CookItemAdapter(Context context,List<ShowCookersInfo.Result.Data> adapterInfo) {
         this.context = context;
         this.adapterInfo = adapterInfo;
     }
 
     @Override
     public int getCount() {
-        if (adapterInfo.getResult() == null) {
-            return 0;
-        }
-        return adapterInfo.getResult().getData().size();
+        return adapterInfo.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return adapterInfo.getResult().getData().get(position);
+    public ShowCookersInfo.Result.Data getItem(int position) {
+        return adapterInfo.get(position);
     }
 
     @Override
@@ -60,12 +60,13 @@ public class CookItemAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        //ShowCookersInfo info = (ShowCookersInfo) getItem(position);
-        Picasso.with(context).load(adapterInfo.getResult().getData().get(position).getAlbums().get(0)).placeholder(R.drawable.ic_placeholder).into(holder.cookImg);
-        holder.cookName.setText(adapterInfo.getResult().getData().get(position).getTitle());
-        holder.cookTags.setText(adapterInfo.getResult().getData().get(position).getTags());
-        holder.cookIngredients.setText(adapterInfo.getResult().getData().get(position).getIngredients());
-        holder.cookBurden.setText(adapterInfo.getResult().getData().get(position).getBurden());
+        ShowCookersInfo.Result.Data info = getItem(position);
+        Picasso.with(context).load(info.getAlbums().get(0)).placeholder(R.drawable.ic_placeholder).into(holder.cookImg);
+        holder.cookName.setText(info.getTitle());
+        holder.cookTags.setText(info.getTags());
+        holder.cookIngredients.setText(info.getIngredients());
+        holder.cookBurden.setText(info.getBurden());
+
 
         return convertView;
     }

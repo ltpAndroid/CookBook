@@ -3,6 +3,7 @@ package com.tarena.cookbook.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,11 +11,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.OkHttpDownloader;
 import com.tarena.cookbook.R;
 import com.tarena.cookbook.adapter.CookItemAdapter;
 import com.tarena.cookbook.entity.ShowCookersInfo;
 import com.tarena.cookbook.util.NetworkUtil;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,11 +42,12 @@ public class ShowCookeryActivity extends AppCompatActivity {
     ListView lvCookery;
 
     private CookItemAdapter adapter;
-    private ShowCookersInfo info;
+    private List<ShowCookersInfo.Result.Data> info = new ArrayList<>();
     private int cookId;
     private int pn = 0;
     private String title;
     private String search_key;
+    private String TAG="TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +86,7 @@ public class ShowCookeryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         sendRequestsWithOkhttp();
-        lvCookery.setAdapter(adapter);
+
     }
 
     private void sendRequestsWithOkhttp() {
@@ -91,6 +98,7 @@ public class ShowCookeryActivity extends AppCompatActivity {
                     Request request = new Request.Builder().url(NetworkUtil.getURL(cookId, search_key, pn, 10)).build();
                     Response response = client.newCall(request).execute();
                     String responseData = response.body().string();
+                    Log.i("yeshen", responseData);
                     parseDataWithGson(responseData);
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -102,10 +110,19 @@ public class ShowCookeryActivity extends AppCompatActivity {
     private void parseDataWithGson(String responseData) {
         Gson gson = new Gson();
         ShowCookersInfo loadInfo = gson.fromJson(responseData, ShowCookersInfo.class);
-        for (int i = 0; i < loadInfo.getResult().getData().size(); i++) {
-            info.getResult().getData().add(loadInfo.getResult().getData().get(i));
-            adapter = new CookItemAdapter(this, info);
+        Log.i(TAG, "loadInfo: "+loadInfo.toString());
+        info.addAll(loadInfo.getResult().getData());
+        Log.i(TAG, "info: "+info.toString());
 
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter = new CookItemAdapter(ShowCookeryActivity.this,info);
+                lvCookery.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
     }
 }
+

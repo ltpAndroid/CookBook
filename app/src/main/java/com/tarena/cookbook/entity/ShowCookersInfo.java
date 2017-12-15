@@ -10,6 +10,7 @@ public class ShowCookersInfo {
     private String reason;
     private Result result;
     private int error_code;
+
     public static class Result {
         private List<Data> data;
         private String totalNum;
@@ -23,7 +24,7 @@ public class ShowCookersInfo {
             private String imtro;
             private String ingredients;
             private String burden;
-           private List<String> albums;
+            private List<String> albums;
             private List<Steps> steps;
 
             public static class Steps {
