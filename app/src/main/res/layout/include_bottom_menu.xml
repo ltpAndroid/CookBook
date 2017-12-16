@@ -29,7 +29,7 @@
         <RadioButton
             android:id="@+id/rb_share"
             style="@style/radio_group"
-            android:drawableTop="@drawable/share"
+            android:drawableTop="@drawable/shared"
             android:text="邻里厨房"
             android:textColor="@drawable/text_color"/>
 

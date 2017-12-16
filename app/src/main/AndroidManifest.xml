@@ -35,7 +35,8 @@
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.PersonalActivity" />
         <activity android:name=".activity.ShowCookeryActivity" />
-        <activity android:name=".activity.SearchActivity"></activity>
+        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.CookDetailsActivity"></activity>
     </application>
 
 </manifest>
