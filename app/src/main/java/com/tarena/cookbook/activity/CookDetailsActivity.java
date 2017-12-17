@@ -66,6 +66,7 @@ public class CookDetailsActivity extends AppCompatActivity {
     private TextView dialog_text_info;
 
     private MyUser currentUser;
+    private Collecttion collecttion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,20 +78,55 @@ public class CookDetailsActivity extends AppCompatActivity {
         initUI();
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
         currentUser = BmobUser.getCurrentUser(MyUser.class);
 
-        BmobQuery<Collecttion> bq = new BmobQuery<>();
-        bq.addWhereEqualTo("myUser",currentUser);
-        bq.addWhereEqualTo("cookName",data.getTitle());
-        bq.findObjects(new FindListener<Collecttion>() {
-            @Override
-            public void done(List<Collecttion> list, BmobException e) {
-
+        if (currentUser != null) {
+            if (collecttion!=null) {
+                BmobQuery<Collecttion> query = new BmobQuery<>();
+                query.addWhereEqualTo("myUser", collecttion.getMyUser());
+                query.addWhereEqualTo("cookName", data.getTitle());
+                query.findObjects(new FindListener<Collecttion>() {
+                    @Override
+                    public void done(List<Collecttion> list, BmobException e) {
+                        if (list==null) {
+                            collecttion = new Collecttion();
+                            collecttion.setMyUser(currentUser);
+                            collecttion.setCookName(data.getTitle());
+                            collecttion.save(new SaveListener<String>() {
+                                @Override
+                                public void done(String s, BmobException e) {
+                                    return;
+                                }
+                            });
+                        }else {
+                            if (list.get(0).isLike()) {
+                                tvCollect.setChecked(true);
+                            } else {
+                                tvCollect.setChecked(false);
+                            }
+                        }
+                    }
+                });
+            }else {
+                collecttion = new Collecttion();
+                collecttion.setMyUser(currentUser);
+                collecttion.setCookName(data.getTitle());
+                collecttion.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        return;
+                    }
+                });
             }
-        });
+
+        }else {
+            tvCollect.setChecked(false);
+        }
+
     }
 
     private void initData() {
@@ -188,14 +224,11 @@ public class CookDetailsActivity extends AppCompatActivity {
                 tvCollect.toggle();
                 CooksDBManager.getCooksDBManager(this).updateData(data, tvCollect.isChecked());
 
-                Collecttion collecttion = new Collecttion();
                 if (tvCollect.isChecked()) {
-                    collecttion.setMyUser(currentUser);
-                    collecttion.setCookName(data.getTitle());
                     collecttion.setLike(true);
-                    collecttion.save(new SaveListener<String>() {
+                    collecttion.update(new UpdateListener() {
                         @Override
-                        public void done(String s, BmobException e) {
+                        public void done(BmobException e) {
                             if (e == null) {
                                 Toast.makeText(CookDetailsActivity.this, "已收藏", Toast.LENGTH_SHORT).show();
                             } else {
@@ -204,11 +237,12 @@ public class CookDetailsActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    collecttion.delete(new UpdateListener() {
+                    collecttion.setLike(false);
+                    collecttion.update(new UpdateListener() {
                         @Override
                         public void done(BmobException e) {
                             if (e == null) {
-                                Toast.makeText(CookDetailsActivity.this, "已取消收藏", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CookDetailsActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(CookDetailsActivity.this, "取消失败:" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
