@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.OkHttpDownloader;
 import com.tarena.cookbook.R;
 import com.tarena.cookbook.adapter.CookItemAdapter;
+import com.tarena.cookbook.dataBase.CooksDBManager;
 import com.tarena.cookbook.entity.ShowCookersInfo;
 import com.tarena.cookbook.util.NetworkUtil;
 
@@ -48,7 +49,7 @@ public class ShowCookeryActivity extends AppCompatActivity {
     private int pn = 0;
     private String title;
     private String search_key;
-    private String TAG="TAG";
+    private String TAG = "TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +66,9 @@ public class ShowCookeryActivity extends AppCompatActivity {
         lvCookery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ShowCookeryActivity.this,CookDetailsActivity.class);
-                intent.putExtra("id",info.get(position).getId());
+                CooksDBManager.getCooksDBManager(ShowCookeryActivity.this).setData(info.get((int) id));
+                CooksDBManager.getCooksDBManager(ShowCookeryActivity.this).insertData(info.get((int) id));
+                Intent intent = new Intent(ShowCookeryActivity.this, CookDetailsActivity.class);
                 startActivity(intent);
             }
         });
@@ -96,7 +98,7 @@ public class ShowCookeryActivity extends AppCompatActivity {
         tvSearch.setText(search);
 
         search_key = bundle.getString("search_key");
-        cookId = bundle.getInt("id", 0);
+        cookId = bundle.getInt("id", 0);//cid
     }
 
 
@@ -128,14 +130,14 @@ public class ShowCookeryActivity extends AppCompatActivity {
     private void parseDataWithGson(String responseData) {
         Gson gson = new Gson();
         ShowCookersInfo loadInfo = gson.fromJson(responseData, ShowCookersInfo.class);
-        Log.i(TAG, "loadInfo: "+loadInfo.toString());
+        Log.i(TAG, "loadInfo: " + loadInfo.toString());
         info.addAll(loadInfo.getResult().getData());
-        Log.i(TAG, "info: "+info.toString());
+        Log.i(TAG, "info: " + info.toString());
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                adapter = new CookItemAdapter(ShowCookeryActivity.this,info);
+                adapter = new CookItemAdapter(ShowCookeryActivity.this, info);
                 lvCookery.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
