@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioGroup;
 
-import com.tarena.cookbook.view.MyViewPager;
 import com.tarena.cookbook.R;
 import com.tarena.cookbook.adapter.MyFragmentPagerAdapter;
 import com.tarena.cookbook.fragment.MenuFragment;
 import com.tarena.cookbook.fragment.MoreFragment;
 import com.tarena.cookbook.fragment.RecommendFragment;
 import com.tarena.cookbook.fragment.ShareFragment;
+import com.tarena.cookbook.view.MyViewPager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         vpContainer.setAdapter(fragmentAdapter);
 
         //将首页的fragment设置为默认的fragment
-        vpContainer.setCurrentItem(0,false);
+        vpContainer.setCurrentItem(0, false);
 
     }
 
@@ -52,21 +52,22 @@ public class MainActivity extends AppCompatActivity {
         bottomMenu.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i){
+                switch (i) {
                     case R.id.rb_food:
-                        vpContainer.setCurrentItem(0,false);
+                        vpContainer.setCurrentItem(0, false);
                         break;
                     case R.id.rb_classify:
-                        vpContainer.setCurrentItem(1,false);
+                        vpContainer.setCurrentItem(1, false);
                         break;
                     case R.id.rb_share:
-                        vpContainer.setCurrentItem(2,false);
+                        vpContainer.setCurrentItem(2, false);
                         break;
                     case R.id.rb_more:
-                        vpContainer.setCurrentItem(3,false);
+                        vpContainer.setCurrentItem(3, false);
                         break;
                 }
             }
         });
     }
+
 }

@@ -120,7 +120,7 @@ public class PersonalActivity extends AppCompatActivity {
         user.update(user.getObjectId(), new UpdateListener() {
             @Override
             public void done(BmobException e) {
-                if (e != null) {
+                if (e == null) {
                     Toast.makeText(PersonalActivity.this, "修改成功", Toast
                             .LENGTH_SHORT).show();
                 } else {

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.tarena.cookbook.R;
+import com.tarena.cookbook.activity.MainActivity;
 import com.tarena.cookbook.activity.SearchActivity;
 import com.tarena.cookbook.activity.ShowCookeryActivity;
 import com.tarena.cookbook.adapter.CategoryAdapter;
@@ -46,6 +48,8 @@ public class RecommendFragment extends Fragment {
     GridView gvCategory;
     @BindView(R.id.ll_search)
     LinearLayout llSearch;
+    @BindView(R.id.tv_more_category)
+    TextView tvMore;
 
     private TextView tvShow;
     private ImageView ivAddMenu;
@@ -72,8 +76,8 @@ public class RecommendFragment extends Fragment {
         imagePaths.add("http://bmob-cdn-14961.b0.upaiyun.com/2017/11/29/62a7fe512dc04882b413d3c2921c5c40.png");
 
         titles = new ArrayList<>();
-        titles.add("蛋");
-        titles.add("肉");
+        titles.add("每日推荐:蛋");
+        titles.add("每日推荐:肉");
 
         categoryList.clear();
         categoryList.add(0, new Category(R.drawable.chinese_cooking, "家常菜"));
@@ -113,12 +117,21 @@ public class RecommendFragment extends Fragment {
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                Intent intent = new Intent(getActivity(),ShowCookeryActivity.class);
+                Intent intent = new Intent(getActivity(), ShowCookeryActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("title", titles.get(position));
-                bundle.putString("search_key",titles.get(position));
+                bundle.putString("search_key", titles.get(position));
                 intent.putExtras(bundle);
                 startActivity(intent);
+            }
+        });
+
+        tvMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                FragmentManager fm = getActivity().getSupportFragmentManager();
+//                Fragment fragment = new MenuFragment();
+//                fm.beginTransaction().addToBackStack(null).replace(R.id.vp_container, fragment).commit();
             }
         });
     }

@@ -84,48 +84,48 @@ public class CookDetailsActivity extends AppCompatActivity {
         super.onResume();
         currentUser = BmobUser.getCurrentUser(MyUser.class);
 
-        if (currentUser != null) {
-            if (collecttion!=null) {
-                BmobQuery<Collecttion> query = new BmobQuery<>();
-                query.addWhereEqualTo("myUser", collecttion.getMyUser());
-                query.addWhereEqualTo("cookName", data.getTitle());
-                query.findObjects(new FindListener<Collecttion>() {
-                    @Override
-                    public void done(List<Collecttion> list, BmobException e) {
-                        if (list==null) {
-                            collecttion = new Collecttion();
-                            collecttion.setMyUser(currentUser);
-                            collecttion.setCookName(data.getTitle());
-                            collecttion.save(new SaveListener<String>() {
-                                @Override
-                                public void done(String s, BmobException e) {
-                                    return;
-                                }
-                            });
-                        }else {
-                            if (list.get(0).isLike()) {
-                                tvCollect.setChecked(true);
-                            } else {
-                                tvCollect.setChecked(false);
-                            }
-                        }
-                    }
-                });
-            }else {
-                collecttion = new Collecttion();
-                collecttion.setMyUser(currentUser);
-                collecttion.setCookName(data.getTitle());
-                collecttion.save(new SaveListener<String>() {
-                    @Override
-                    public void done(String s, BmobException e) {
-                        return;
-                    }
-                });
-            }
-
-        }else {
-            tvCollect.setChecked(false);
-        }
+//        if (currentUser != null) {
+//            if (collecttion!=null) {
+//                BmobQuery<Collecttion> query = new BmobQuery<>();
+//                query.addWhereEqualTo("myUser", collecttion.getMyUser());
+//                query.addWhereEqualTo("cookName", data.getTitle());
+//                query.findObjects(new FindListener<Collecttion>() {
+//                    @Override
+//                    public void done(List<Collecttion> list, BmobException e) {
+//                        if (list==null) {
+//                            collecttion = new Collecttion();
+//                            collecttion.setMyUser(currentUser);
+//                            collecttion.setCookName(data.getTitle());
+//                            collecttion.save(new SaveListener<String>() {
+//                                @Override
+//                                public void done(String s, BmobException e) {
+//                                    return;
+//                                }
+//                            });
+//                        }else {
+//                            if (list.get(0).isLike()) {
+//                                tvCollect.setChecked(true);
+//                            } else {
+//                                tvCollect.setChecked(false);
+//                            }
+//                        }
+//                    }
+//                });
+//            }else {
+//                collecttion = new Collecttion();
+//                collecttion.setMyUser(currentUser);
+//                collecttion.setCookName(data.getTitle());
+//                collecttion.save(new SaveListener<String>() {
+//                    @Override
+//                    public void done(String s, BmobException e) {
+//                        return;
+//                    }
+//                });
+//            }
+//
+//        }else {
+//            tvCollect.setChecked(false);
+//        }
 
     }
 
@@ -224,31 +224,31 @@ public class CookDetailsActivity extends AppCompatActivity {
                 tvCollect.toggle();
                 CooksDBManager.getCooksDBManager(this).updateData(data, tvCollect.isChecked());
 
-                if (tvCollect.isChecked()) {
-                    collecttion.setLike(true);
-                    collecttion.update(new UpdateListener() {
-                        @Override
-                        public void done(BmobException e) {
-                            if (e == null) {
-                                Toast.makeText(CookDetailsActivity.this, "已收藏", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(CookDetailsActivity.this, "收藏失败:" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                } else {
-                    collecttion.setLike(false);
-                    collecttion.update(new UpdateListener() {
-                        @Override
-                        public void done(BmobException e) {
-                            if (e == null) {
-                                Toast.makeText(CookDetailsActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(CookDetailsActivity.this, "取消失败:" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
+//                if (tvCollect.isChecked()) {
+//                    collecttion.setLike(true);
+//                    collecttion.update(new UpdateListener() {
+//                        @Override
+//                        public void done(BmobException e) {
+//                            if (e == null) {
+//                                Toast.makeText(CookDetailsActivity.this, "已收藏", Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                Toast.makeText(CookDetailsActivity.this, "收藏失败:" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
+//                } else {
+//                    collecttion.setLike(false);
+//                    collecttion.update(new UpdateListener() {
+//                        @Override
+//                        public void done(BmobException e) {
+//                            if (e == null) {
+//                                Toast.makeText(CookDetailsActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                Toast.makeText(CookDetailsActivity.this, "取消失败:" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
+//                }
 
                 break;
         }
