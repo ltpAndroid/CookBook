@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +17,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.squareup.picasso.Picasso;
 import com.tarena.cookbook.R;
-import com.tarena.cookbook.activity.MainActivity;
 import com.tarena.cookbook.activity.SearchActivity;
 import com.tarena.cookbook.activity.ShowCookeryActivity;
 import com.tarena.cookbook.adapter.CategoryAdapter;
+import com.tarena.cookbook.adapter.MainCookAdapter;
 import com.tarena.cookbook.entity.Category;
+import com.tarena.cookbook.entity.ShowCookersInfo;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -50,6 +54,8 @@ public class RecommendFragment extends Fragment {
     LinearLayout llSearch;
     @BindView(R.id.tv_more_category)
     TextView tvMore;
+    @BindView(R.id.rv_recommend)
+    RecyclerView rvRecommend;
 
     private TextView tvShow;
     private ImageView ivAddMenu;
@@ -57,6 +63,9 @@ public class RecommendFragment extends Fragment {
     List<String> titles;
     private List<Category> categoryList = new ArrayList<>();
     private CategoryAdapter adapter;
+    private MainCookAdapter cookAdapter;
+    private List<Category> cookList = new ArrayList<>();
+
 
     @Nullable
     @Override
@@ -90,6 +99,13 @@ public class RecommendFragment extends Fragment {
         categoryList.add(7, new Category(R.drawable.soup_cook, "汤"));
         categoryList.add(8, new Category(R.drawable.flavor_cook, "自制调味料"));
 
+        cookList.clear();
+        cookList.add(0, new Category(R.drawable.cxhj, "早餐:葱香花卷"));
+        cookList.add(1, new Category(R.drawable.jdg, "早餐:鸡蛋羹"));
+        cookList.add(2, new Category(R.drawable.tdsj, "午餐:土豆烧鸡"));
+        cookList.add(3, new Category(R.drawable.scx, "午餐:四季豆炒香肠"));
+        cookList.add(4, new Category(R.drawable.jgt, "晚餐:菌菇汤"));
+        cookList.add(5, new Category(R.drawable.hsr, "晚餐:红烧肉"));
     }
 
 
@@ -119,19 +135,22 @@ public class RecommendFragment extends Fragment {
             public void OnBannerClick(int position) {
                 Intent intent = new Intent(getActivity(), ShowCookeryActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("title", titles.get(position));
-                bundle.putString("search_key", titles.get(position));
+                bundle.putString("title", titles.get(position).split(":")[1]);
+                bundle.putString("search_key", titles.get(position).split(":")[1]);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
 
-        tvMore.setOnClickListener(new View.OnClickListener() {
+        cookAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onClick(View v) {
-//                FragmentManager fm = getActivity().getSupportFragmentManager();
-//                Fragment fragment = new MenuFragment();
-//                fm.beginTransaction().addToBackStack(null).replace(R.id.vp_container, fragment).commit();
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(getActivity(), ShowCookeryActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("title", cookList.get(position).getTitle().split(":")[1]);
+                bundle.putString("search_key", cookList.get(position).getTitle().split(":")[1]);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }
@@ -160,6 +179,9 @@ public class RecommendFragment extends Fragment {
         adapter = new CategoryAdapter(getActivity(), categoryList);
         gvCategory.setAdapter(adapter);
 
+        cookAdapter = new MainCookAdapter(R.layout.item_main_cooklist, cookList);
+        rvRecommend.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        rvRecommend.setAdapter(cookAdapter);
     }
 
     public class GlideImageLoader extends ImageLoader {

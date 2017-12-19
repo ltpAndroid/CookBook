@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -127,7 +128,7 @@ public class ShowCookeryActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void parseDataWithGson(String responseData) {
+    private void parseDataWithGson(final String responseData) {
         Gson gson = new Gson();
         ShowCookersInfo loadInfo = gson.fromJson(responseData, ShowCookersInfo.class);
         Log.i(TAG, "loadInfo: " + loadInfo.toString());
