@@ -100,12 +100,12 @@ public class RecommendFragment extends Fragment {
         categoryList.add(8, new Category(R.drawable.flavor_cook, "自制调味料"));
 
         cookList.clear();
-        cookList.add(0, new Category(R.drawable.cxhj, "早餐:葱香花卷"));
-        cookList.add(1, new Category(R.drawable.jdg, "早餐:鸡蛋羹"));
-        cookList.add(2, new Category(R.drawable.tdsj, "午餐:土豆烧鸡"));
-        cookList.add(3, new Category(R.drawable.scx, "午餐:四季豆炒香肠"));
-        cookList.add(4, new Category(R.drawable.jgt, "晚餐:菌菇汤"));
-        cookList.add(5, new Category(R.drawable.hsr, "晚餐:红烧肉"));
+        cookList.add(0, new Category(R.drawable.cxhj, "早:葱香花卷"));
+        cookList.add(1, new Category(R.drawable.jdg, "早:鸡蛋羹"));
+        cookList.add(2, new Category(R.drawable.tdsj, "午:土豆烧鸡"));
+        cookList.add(3, new Category(R.drawable.scx, "午:四季豆炒香肠"));
+        cookList.add(4, new Category(R.drawable.jgt, "晚:菌菇汤"));
+        cookList.add(5, new Category(R.drawable.hsr, "晚:红烧肉"));
     }
 
 
@@ -142,9 +142,9 @@ public class RecommendFragment extends Fragment {
             }
         });
 
-        cookAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        cookAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(getActivity(), ShowCookeryActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("title", cookList.get(position).getTitle().split(":")[1]);
