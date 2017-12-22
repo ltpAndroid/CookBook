@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/comment_iv_head"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/comment_tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/comment_iv_head"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/comment_iv_head"
+        android:text="1964535"
+        android:textColor="#ff00"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/comment_tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment_tv_nickname"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="9dp"
+        android:layout_toRightOf="@+id/comment_iv_head"
+        android:text="233"
+        android:textColor="#6E6E6E"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/comment_tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment_tv_time"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="18dp"
+        android:text="654651"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+</RelativeLayout>

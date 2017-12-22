@@ -46,7 +46,7 @@ public abstract  class BaseFragment extends Fragment {
             tvTitle.setText(title);
         }
 
-        ivRight.setImageResource(R.drawable.message_menu);
+        ivRight.setImageResource(R.drawable.message_read);
         ivRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

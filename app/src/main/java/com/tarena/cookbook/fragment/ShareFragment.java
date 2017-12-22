@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.tarena.cookbook.R;
 import com.tarena.cookbook.activity.LoginActivity;
+import com.tarena.cookbook.activity.MessageDetailActivity;
 import com.tarena.cookbook.activity.SendMessageActivity;
 import com.tarena.cookbook.adapter.ShareFoodAdapter;
 import com.tarena.cookbook.entity.Message;
@@ -104,7 +105,9 @@ public class ShareFragment extends BaseFragment {
         lvMessages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            //TODO
+                Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
+                intent.putExtra("msg",messages.get(position));
+                startActivity(intent);
             }
         });
 

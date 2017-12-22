@@ -93,6 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
                     MyUser user = new MyUser();
                     user.setUsername(phoneNum);
                     user.setPassword(password);
+                    user.setHeadPath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513940076438&di=f9f4f0e1b7ef6c51c7304a1a56db02d3&imgtype=0&src=http%3A%2F%2Fimg71.nipic.com%2Ffile%2F20160306%2F10504359_163227658431_1.jpg");
                     user.setNickname("用户" + phoneNum);
                     user.setSignature("正在通往美食达人的路上...");
 
