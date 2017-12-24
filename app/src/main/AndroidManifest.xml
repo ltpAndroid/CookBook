@@ -38,7 +38,8 @@
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.CookDetailsActivity" />
         <activity android:name=".activity.SendMessageActivity" />
-        <activity android:name=".activity.MessageDetailActivity"></activity>
+        <activity android:name=".activity.MessageDetailActivity" />
+        <activity android:name=".activity.CollectActivity"></activity>
     </application>
 
 </manifest>

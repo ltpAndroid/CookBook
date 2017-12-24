@@ -115,6 +115,7 @@ public class ShareFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 loadmessages();
+                refresh.setRefreshing(false);
             }
         });
     }
