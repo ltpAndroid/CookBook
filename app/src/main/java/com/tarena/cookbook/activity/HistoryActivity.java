@@ -19,12 +19,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CollectActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity {
 
-    @BindView(R.id.collect_back)
+    @BindView(R.id.history_back)
     ImageView ivBack;
-    @BindView(R.id.lv_collect)
-    ListView lvCollect;
+    @BindView(R.id.lv_history)
+    ListView lvHistory;
 
     private CookItemAdapter adapter;
     private List<ShowCookersInfo.Result.Data> info = new ArrayList<>();
@@ -32,7 +32,7 @@ public class CollectActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_collect);
+        setContentView(R.layout.activity_history);
         ButterKnife.bind(this);
 
         initData();
@@ -40,8 +40,8 @@ public class CollectActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        info = CooksDBManager.getCooksDBManager(CollectActivity.this).getData(false, true).getResult().getData();
-        lvCollect.setAdapter(new CookItemAdapter(this,info));
+        info = CooksDBManager.getCooksDBManager(HistoryActivity.this).getData(true, false).getResult().getData();
+        lvHistory.setAdapter(new CookItemAdapter(this,info));
     }
 
     private void setListener() {
@@ -53,14 +53,15 @@ public class CollectActivity extends AppCompatActivity {
             }
         });
 
-        lvCollect.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CooksDBManager.getCooksDBManager(CollectActivity.this).setData(info.get((int) id));
-                CooksDBManager.getCooksDBManager(CollectActivity.this).insertData(info.get((int) id));
-                Intent intent = new Intent(CollectActivity.this, CookDetailsActivity.class);
+                CooksDBManager.getCooksDBManager(HistoryActivity.this).setData(info.get((int) id));
+                CooksDBManager.getCooksDBManager(HistoryActivity.this).insertData(info.get((int) id));
+                Intent intent = new Intent(HistoryActivity.this, CookDetailsActivity.class);
                 startActivity(intent);
             }
         });
     }
+
 }

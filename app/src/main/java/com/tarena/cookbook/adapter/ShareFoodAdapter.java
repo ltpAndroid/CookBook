@@ -1,12 +1,16 @@
 package com.tarena.cookbook.adapter;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.tarena.cookbook.R;
@@ -19,7 +23,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -29,6 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShareFoodAdapter extends MyAdapter<Message> {
     private String TAG = "CookBook";
+
     public ShareFoodAdapter(Context context, List<Message> data) {
         super(context, data);
     }
@@ -36,7 +45,7 @@ public class ShareFoodAdapter extends MyAdapter<Message> {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         final Message msg = getData().get(i);
-        Log.i(TAG, "msg:"+msg);
+        Log.i(TAG, "msg:" + msg);
 
         ViewHoler holder = null;
         if (null == view) {
@@ -47,6 +56,7 @@ public class ShareFoodAdapter extends MyAdapter<Message> {
             holder.tv_content = view.findViewById(R.id.item_tv_content);
             holder.tv_time = view.findViewById(R.id.item_tv_time);
             holder.layout_images = view.findViewById(R.id.imagesLayout);
+            holder.tv_delete = view.findViewById(R.id.item_tv_delete);
             view.setTag(holder);
         } else {
             holder = (ViewHoler) view.getTag();
@@ -68,6 +78,39 @@ public class ShareFoodAdapter extends MyAdapter<Message> {
             holder.tv_time.setText(DateTimeUtils.formatDate(millis));
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+
+        Log.i(TAG, "" + user.getNickname());
+        Log.i(TAG, "" + BmobUser.getCurrentUser(MyUser.class).getNickname());
+        if (!user.getNickname().equals(BmobUser.getCurrentUser(MyUser.class).getNickname())) {
+            holder.tv_delete.setVisibility(View.INVISIBLE);
+        } else {
+            holder.tv_delete.setVisibility(View.VISIBLE);
+            holder.tv_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                    dialog.setTitle("注意!!!");
+                    dialog.setMessage("是否确认删除当前信息?");
+                    dialog.setNegativeButton("取消", null);
+                    dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            msg.delete(new UpdateListener() {
+                                @Override
+                                public void done(BmobException e) {
+                                    if (e == null) {
+                                        Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(getContext(), "删除失败", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    dialog.create().show();
+                }
+            });
         }
 
         //判断是否有图片
@@ -122,5 +165,6 @@ public class ShareFoodAdapter extends MyAdapter<Message> {
         TextView tv_content;
         TextView tv_time;
         RelativeLayout layout_images;
+        TextView tv_delete;
     }
 }

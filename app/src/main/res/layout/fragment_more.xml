@@ -2,13 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#eeeeee"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/acitonBar_more"
-        layout="@layout/include_actionbar"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize" />
+        android:layout_height="?actionBarSize"
+        android:gravity="center"
+        android:text="更多"
+        android:background="#ffffff"
+        android:textColor="#000"
+        android:textSize="18sp" />
 
     <View
         android:layout_width="match_parent"
@@ -17,16 +21,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#eeeeee">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:id="@+id/rl_my_setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="#fff">
+            android:background="#fff"
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/iv_header"
@@ -63,10 +65,10 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout_1"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_below="@+id/rl_my_setting"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:background="#fff"
             android:orientation="vertical">
@@ -81,25 +83,27 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="我的收藏"
                     android:gravity="center_vertical"
                     android:paddingStart="10dp"
-                    android:textSize="18sp"
-                    android:textColor="#000"/>
+                    android:text="我的收藏"
+                    android:textColor="#000"
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_marginEnd="5dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/next"/>
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/next" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#9e9e9e"/>
+                android:background="#9e9e9e" />
+
             <LinearLayout
-                android:id="@+id/ll_look"
+                android:id="@+id/ll_history"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal">
@@ -108,36 +112,154 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="我的浏览"
                     android:gravity="center_vertical"
                     android:paddingStart="10dp"
-                    android:textSize="18sp"
-                    android:textColor="#000"/>
+                    android:text="我的浏览"
+                    android:textColor="#000"
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_marginEnd="5dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/next"/>
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/next" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#9e9e9e"/>
+                android:background="#9e9e9e" />
+
+            <LinearLayout
+                android:id="@+id/ll_my_cook"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:text="我的美食"
+                    android:textColor="#000"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/next" />
+            </LinearLayout>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_quit"
-            android:layout_width="200dp"
-            android:layout_height="36dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/selector_login_button"
-            android:text="退出当前账号"
-            android:textColor="#ffffff"
-            android:textSize="14sp" />
+        <LinearLayout
+            android:id="@+id/linearLayout_2"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@+id/linearLayout_1"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#fff"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_clear_cache"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:text="清除缓存"
+                    android:textColor="#000"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_cache_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    android:text="缓存大小" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#9e9e9e" />
+
+            <LinearLayout
+                android:id="@+id/ll_new"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:text="版本更新"
+                    android:textColor="#000"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    android:text="V1.1.0" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#9e9e9e" />
+
+            <LinearLayout
+                android:id="@+id/ll_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:text="意见反馈"
+                    android:textColor="#000"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/next" />
+            </LinearLayout>
+        </LinearLayout>
+
     </RelativeLayout>
 
-
+    <Button
+        android:id="@+id/btn_quit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:background="#ff00"
+        android:text="退出当前账号"
+        android:textColor="#ffffff" />
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +56,7 @@ public class ShareFragment extends BaseFragment {
         unbinder = ButterKnife.bind(this, contentView);
 
         setListener();
-        loadmessages();
+        //loadmessages();
 
         return contentView;
     }
@@ -65,7 +66,7 @@ public class ShareFragment extends BaseFragment {
         super.onResume();
 
         currentUser = BmobUser.getCurrentUser(MyUser.class);
-
+        Log.i("kk", "onResume: "+"----------------------");
         loadmessages();
     }
 
@@ -79,9 +80,11 @@ public class ShareFragment extends BaseFragment {
             @Override
             public void done(List<Message> list, BmobException e) {
                 if (e == null) {
+                    Log.i("kk", "onResume: "+"--------2--------------");
                     messages = list;
                     adapter = new ShareFoodAdapter(getActivity(), list);
                     lvMessages.setAdapter(adapter);
+
                 }
             }
         });

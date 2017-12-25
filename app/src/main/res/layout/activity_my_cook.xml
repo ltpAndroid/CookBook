@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.tarena.cookbook.activity.MyCookActivity">
+
+    <TextView
+        android:id="@+id/tv_mc_back"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="#64B5F6"
+        android:drawableStart="@drawable/back"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="我的美食"
+        android:textColor="#000"
+        android:textSize="18sp" />
+
+    <ListView
+        android:id="@+id/lv_my_cook"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.tarena.cookbook.R;
 import com.tarena.cookbook.adapter.GridImageAdapter;
+import com.tarena.cookbook.entity.Feedback;
 import com.tarena.cookbook.entity.Message;
 import com.tarena.cookbook.entity.MyUser;
 import com.tarena.cookbook.view.FullyGridLayoutManager;
@@ -34,60 +36,69 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadBatchListener;
 
-public class SendMessageActivity extends AppCompatActivity implements GridImageAdapter.onAddPicClickListener {
+public class FeedbackActivity extends AppCompatActivity implements GridImageAdapter.onAddPicClickListener {
 
-    @BindView(R.id.tv_cancel)
-    TextView tvCancel;
-    @BindView(R.id.tv_send)
-    TextView tvSend;
-    @BindView(R.id.et_content)
-    EditText etContent;
-    @BindView(R.id.recycler)
-    RecyclerView recycler;
+    @BindView(R.id.tv_back)
+    TextView tvBack;
+    @BindView(R.id.et_describe)
+    EditText etDescribe;
+    @BindView(R.id.et_contact)
+    EditText etContact;
+    @BindView(R.id.btn_submit)
+    Button btnSubmit;
+    @BindView(R.id.rv_add_imgs)
+    RecyclerView rvAddImgs;
 
+
+    /**
+     * 选择的图片
+     */
+    private List<LocalMedia> selectList = new ArrayList<>();
     private GridImageAdapter adapter;
-    List<LocalMedia> selectList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_send_message);
+        setContentView(R.layout.activity_feedback);
         ButterKnife.bind(this);
 
         initUI();
     }
 
     private void initUI() {
-        FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
-        recycler.setLayoutManager(manager);
+        FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
+        rvAddImgs.setLayoutManager(manager);
         //1 this 上下文环境context  2 this onAddPicClickListener的实现类对象
         adapter = new GridImageAdapter(this, this);
         adapter.setList(selectList);
-        adapter.setSelectMax(9);
-        recycler.setAdapter(adapter);
+        adapter.setSelectMax(3);
+        rvAddImgs.setAdapter(adapter);
     }
 
-    @OnClick({R.id.tv_cancel, R.id.tv_send})
+    @OnClick({R.id.tv_back, R.id.btn_submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tv_cancel:
+            case R.id.tv_back:
                 finish();
+                overridePendingTransition(R.anim.new_to_right, R.anim.old_to_right);
                 break;
-            case R.id.tv_send:
-                sendAction();
+
+            case R.id.btn_submit:
+                submitAction();
                 break;
         }
     }
 
-    private void sendAction() {
-        if (TextUtils.isEmpty(etContent.getText().toString())) {
+    private void submitAction() {
+        if (TextUtils.isEmpty(etDescribe.getText().toString()) || TextUtils.isEmpty(etContact.getText().toString())) {
             Toast.makeText(this, "内容不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        final Message msg = new Message();
-        msg.setUser(BmobUser.getCurrentUser(MyUser.class));
-        msg.setDetail(etContent.getText().toString());
+        final Feedback feedback = new Feedback();
+        feedback.setUser(BmobUser.getCurrentUser(MyUser.class));
+        feedback.setDescribe(etDescribe.getText().toString());
+        feedback.setContact(etContact.getText().toString());
 
         //判断是否有图片
         if (selectList != null && selectList.size() > 0) {
@@ -100,8 +111,8 @@ public class SendMessageActivity extends AppCompatActivity implements GridImageA
                 @Override
                 public void onSuccess(List<BmobFile> list, List<String> list1) {
                     if (list.size() == selectList.size()) {
-                        msg.setImagePaths(list1);
-                        send(msg);
+                        feedback.setImgs(list1);
+                        submit(feedback);
                     }
                 }
 
@@ -112,36 +123,35 @@ public class SendMessageActivity extends AppCompatActivity implements GridImageA
 
                 @Override
                 public void onError(int i, String s) {
-                    Toast.makeText(SendMessageActivity.this, "发送失败：" + s, Toast.LENGTH_SHORT)
+                    Toast.makeText(FeedbackActivity.this, "发送失败：" + s, Toast.LENGTH_SHORT)
                             .show();
                 }
             });
         } else {
-            send(msg);
+            submit(feedback);
         }
     }
 
-    private void send(Message msg) {
-        msg.save(new SaveListener<String>() {
+    private void submit(Feedback feedback) {
+        feedback.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {
                 if (e == null) {
-                    Toast.makeText(SendMessageActivity.this, "发送成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FeedbackActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    Toast.makeText(SendMessageActivity.this, "发送失败:" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FeedbackActivity.this, "提交失败:" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-
     @Override
     public void onAddPicClick() {
         // 进入相册 以下是例子：不需要的api可以不写
-        PictureSelector.create(SendMessageActivity.this)
+        PictureSelector.create(FeedbackActivity.this)
                 .openGallery(PictureMimeType.ofAll())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .maxSelectNum(9)// 最大图片选择数量
+                .maxSelectNum(3)// 最大图片选择数量
                 .minSelectNum(1)// 最小选择数量
                 .imageSpanCount(4)// 每行显示个数
                 .selectionMode(

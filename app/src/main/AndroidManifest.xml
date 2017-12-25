@@ -39,7 +39,10 @@
         <activity android:name=".activity.CookDetailsActivity" />
         <activity android:name=".activity.SendMessageActivity" />
         <activity android:name=".activity.MessageDetailActivity" />
-        <activity android:name=".activity.CollectActivity"></activity>
+        <activity android:name=".activity.CollectActivity" />
+        <activity android:name=".activity.HistoryActivity" />
+        <activity android:name=".activity.FeedbackActivity" />
+        <activity android:name=".activity.MyCookActivity"></activity>
     </application>
 
 </manifest>
