@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.tarena.cookbook.R;
 import com.tarena.cookbook.activity.LoginActivity;
@@ -66,7 +67,7 @@ public class ShareFragment extends BaseFragment {
         super.onResume();
 
         currentUser = BmobUser.getCurrentUser(MyUser.class);
-        Log.i("kk", "onResume: "+"----------------------");
+        Log.i("kk", "onResume: " + "----------------------");
         loadmessages();
     }
 
@@ -80,9 +81,9 @@ public class ShareFragment extends BaseFragment {
             @Override
             public void done(List<Message> list, BmobException e) {
                 if (e == null) {
-                    Log.i("kk", "onResume: "+"--------2--------------");
+                    Log.i("kk", "onResume: " + "--------2--------------");
                     messages = list;
-                    adapter = new ShareFoodAdapter(getActivity(), list);
+                    adapter = new ShareFoodAdapter(getContext(), list);
                     lvMessages.setAdapter(adapter);
 
                 }
@@ -94,7 +95,7 @@ public class ShareFragment extends BaseFragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentUser==null) {
+                if (currentUser == null) {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
                     return;
@@ -109,7 +110,7 @@ public class ShareFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
-                intent.putExtra("msg",messages.get(position));
+                intent.putExtra("msg", messages.get(position));
                 startActivity(intent);
             }
         });
@@ -117,8 +118,20 @@ public class ShareFragment extends BaseFragment {
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadmessages();
-                refresh.setRefreshing(false);
+                refresh.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadmessages();
+                        refresh.setRefreshing(false);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getActivity(), "刷新完毕", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }, 2000);
+
             }
         });
     }

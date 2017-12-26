@@ -20,10 +20,12 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.squareup.picasso.Picasso;
 import com.tarena.cookbook.R;
+import com.tarena.cookbook.activity.CookDetailsActivity;
 import com.tarena.cookbook.activity.SearchActivity;
 import com.tarena.cookbook.activity.ShowCookeryActivity;
 import com.tarena.cookbook.adapter.CategoryAdapter;
 import com.tarena.cookbook.adapter.MainCookAdapter;
+import com.tarena.cookbook.dataBase.CooksDBManager;
 import com.tarena.cookbook.entity.Category;
 import com.tarena.cookbook.entity.ShowCookersInfo;
 import com.youth.banner.Banner;
@@ -81,12 +83,14 @@ public class RecommendFragment extends Fragment {
 
     private void initData() {
         imagePaths = new ArrayList<>();
-        imagePaths.add("http://bmob-cdn-14961.b0.upaiyun.com/2017/11/30/8586e90e53c1497ba53d69360465b127.jpeg");
-        imagePaths.add("http://bmob-cdn-14961.b0.upaiyun.com/2017/11/29/62a7fe512dc04882b413d3c2921c5c40.png");
+        imagePaths.add("http://juheimg.oss-cn-hangzhou.aliyuncs.com/cookbook/t/0/7_583507.jpg");
+        imagePaths.add("http://juheimg.oss-cn-hangzhou.aliyuncs.com/cookbook/t/6/5196_525400.jpg");
+        imagePaths.add("http://juheimg.oss-cn-hangzhou.aliyuncs.com/cookbook/t/30/29081_835103.jpg");
 
         titles = new ArrayList<>();
-        titles.add("每日推荐:蛋");
-        titles.add("每日推荐:肉");
+        titles.add("每日推荐:糖醋排骨");
+        titles.add("每日推荐:番茄鸡蛋饼");
+        titles.add("每日推荐:蒜蓉虾");
 
         categoryList.clear();
         categoryList.add(0, new Category(R.drawable.chinese_cooking, "家常菜"));
@@ -139,6 +143,10 @@ public class RecommendFragment extends Fragment {
                 bundle.putString("search_key", titles.get(position).split(":")[1]);
                 intent.putExtras(bundle);
                 startActivity(intent);
+//                CooksDBManager.getCooksDBManager(getActivity()).setData(info.get(1));
+//                CooksDBManager.getCooksDBManager(getActivity()).insertData(info.get(1));
+//                Intent intent = new Intent(getActivity(), CookDetailsActivity.class);
+//                startActivity(intent);
             }
         });
 
@@ -180,7 +188,7 @@ public class RecommendFragment extends Fragment {
         gvCategory.setAdapter(adapter);
 
         cookAdapter = new MainCookAdapter(R.layout.item_main_cooklist, cookList);
-        rvRecommend.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        rvRecommend.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         rvRecommend.setAdapter(cookAdapter);
     }
 

@@ -11,11 +11,31 @@ public class ShowCookersInfo {
     private Result result;
     private int error_code;
 
+    @Override
+    public String toString() {
+        return "ShowCookersInfo{" +
+                "resultcode='" + resultcode + '\'' +
+                ", reason='" + reason + '\'' +
+                ", result=" + result +
+                ", error_code=" + error_code +
+                '}';
+    }
+
     public static class Result {
         private List<Data> data;
         private String totalNum;
         private String pn;
         private String rn;
+
+        @Override
+        public String toString() {
+            return "Result{" +
+                    "data=" + data +
+                    ", totalNum='" + totalNum + '\'' +
+                    ", pn='" + pn + '\'' +
+                    ", rn='" + rn + '\'' +
+                    '}';
+        }
 
         public static class Data {
             private String id;
@@ -26,6 +46,20 @@ public class ShowCookersInfo {
             private String burden;
             private List<String> albums;
             private List<Steps> steps;
+
+            @Override
+            public String toString() {
+                return "Data{" +
+                        "id='" + id + '\'' +
+                        ", title='" + title + '\'' +
+                        ", tags='" + tags + '\'' +
+                        ", imtro='" + imtro + '\'' +
+                        ", ingredients='" + ingredients + '\'' +
+                        ", burden='" + burden + '\'' +
+                        ", albums=" + albums +
+                        ", steps=" + steps +
+                        '}';
+            }
 
             public static class Steps {
                 private String img;

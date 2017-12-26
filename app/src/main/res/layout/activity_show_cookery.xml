@@ -44,11 +44,12 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lv_cookery"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_cookery"
+        android:divider="@null"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
+        android:padding="5dp"
         android:background="#EDF2F4"
         android:scrollbars="none" />
 </LinearLayout>

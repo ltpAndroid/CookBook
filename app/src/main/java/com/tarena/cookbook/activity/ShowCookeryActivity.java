@@ -3,6 +3,8 @@ package com.tarena.cookbook.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.OkHttpDownloader;
@@ -20,7 +23,9 @@ import com.tarena.cookbook.adapter.CookItemAdapter;
 import com.tarena.cookbook.dataBase.CooksDBManager;
 import com.tarena.cookbook.entity.ShowCookersInfo;
 import com.tarena.cookbook.util.NetworkUtil;
+import com.tarena.cookbook.util.OkHttpUtil;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -41,8 +47,8 @@ public class ShowCookeryActivity extends AppCompatActivity {
     LinearLayout llSearch;
     @BindView(R.id.tv_search)
     TextView tvSearch;
-    @BindView(R.id.lv_cookery)
-    ListView lvCookery;
+    @BindView(R.id.rv_cookery)
+    RecyclerView rvCookery;
 
     private CookItemAdapter adapter;
     private List<ShowCookersInfo.Result.Data> info = new ArrayList<>();
@@ -58,21 +64,26 @@ public class ShowCookeryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_cookery);
         ButterKnife.bind(this);
 
+        adapter = new CookItemAdapter(R.layout.item_cooks_list, info);
+        rvCookery.setLayoutManager(new LinearLayoutManager(ShowCookeryActivity.this));
+        rvCookery.setAdapter(adapter);
+
         initData();
         setListener();
 
     }
 
     private void setListener() {
-        lvCookery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CooksDBManager.getCooksDBManager(ShowCookeryActivity.this).setData(info.get((int) id));
-                CooksDBManager.getCooksDBManager(ShowCookeryActivity.this).insertData(info.get((int) id));
-                Intent intent = new Intent(ShowCookeryActivity.this, CookDetailsActivity.class);
-                startActivity(intent);
-            }
-        });
+        //        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        //            @Override
+        //            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        //                Log.i("mycook", info.get(position).getAlbums().get(0));
+        //                CooksDBManager.getCooksDBManager(ShowCookeryActivity.this).setData(info.get((int) (position+1)));
+        //                CooksDBManager.getCooksDBManager(ShowCookeryActivity.this).insertData(info.get((int) (position+1)));
+        //                Intent intent = new Intent(ShowCookeryActivity.this, CookDetailsActivity.class);
+        //                startActivity(intent);
+        //            }
+        //        });
 
 
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -100,47 +111,76 @@ public class ShowCookeryActivity extends AppCompatActivity {
 
         search_key = bundle.getString("search_key");
         cookId = bundle.getInt("id", 0);//cid
+
+        //adapter = new CookItemAdapter(R.layout.item_cooks_list,)
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        sendRequestsWithOkhttp();
+        Log.i(TAG, "onFailure: ");
 
+        requestHttpData();
+        loadMoreData();
     }
 
-    private void sendRequestsWithOkhttp() {
-        new Thread(new Runnable() {
+    private void requestHttpData() {
+        OkHttpUtil.sendOkHttpRequest(NetworkUtil.getURL(cookId, search_key, pn, 10), new okhttp3.Callback() {
             @Override
-            public void run() {
-                try {
-                    OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder().url(NetworkUtil.getURL(cookId, search_key, pn, 10)).build();
-                    Response response = client.newCall(request).execute();
-                    String responseData = response.body().string();
-                    Log.i("yeshen", responseData);
-                    parseDataWithGson(responseData);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+            public void onFailure(Call call, IOException e) {
+                Log.i(TAG, "onFailure: " + e.getLocalizedMessage());
             }
-        }).start();
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseData = response.body().string();
+                parseDataWithGson(responseData);
+                //pn += 10;
+            }
+        });
+    }
+
+    private void loadMoreData() {
+        Log.i(TAG, "loadMoreData: " + adapter);
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                rvCookery.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        pn += 10;
+                        requestHttpData();
+                    }
+                }, 2000);
+            }
+        }, rvCookery);
     }
 
     private void parseDataWithGson(final String responseData) {
         Gson gson = new Gson();
         ShowCookersInfo loadInfo = gson.fromJson(responseData, ShowCookersInfo.class);
         Log.i(TAG, "loadInfo: " + loadInfo.toString());
+        Log.i(TAG, "loadInfo.getResult: "+loadInfo.getResult().toString());
+        Log.i(TAG, "info: "+info.toString());
         info.addAll(loadInfo.getResult().getData());
         Log.i(TAG, "info: " + info.toString());
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                adapter = new CookItemAdapter(ShowCookeryActivity.this, info);
-                lvCookery.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+
+                adapter.setNewData(info);
+                adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        Log.i("mycook", info.get(position).getAlbums().get(0));
+                        CooksDBManager.getCooksDBManager(ShowCookeryActivity.this).setData(info.get(position));
+                        CooksDBManager.getCooksDBManager(ShowCookeryActivity.this).insertData(info.get(position));
+                        Intent intent = new Intent(ShowCookeryActivity.this, CookDetailsActivity.class);
+                        startActivity(intent);
+                    }
+                });
             }
         });
 

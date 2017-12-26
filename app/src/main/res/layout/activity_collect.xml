@@ -28,8 +28,8 @@
             android:src="@drawable/back" />
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/lv_collect"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_collect"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

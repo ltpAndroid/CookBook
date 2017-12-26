@@ -37,6 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShareFoodAdapter extends MyAdapter<Message> {
     private String TAG = "CookBook";
+    private MyUser currentUser = BmobUser.getCurrentUser(MyUser.class);
 
     public ShareFoodAdapter(Context context, List<Message> data) {
         super(context, data);
@@ -80,38 +81,50 @@ public class ShareFoodAdapter extends MyAdapter<Message> {
             e.printStackTrace();
         }
 
-        Log.i(TAG, "" + user.getNickname());
-        Log.i(TAG, "" + BmobUser.getCurrentUser(MyUser.class).getNickname());
-        if (!user.getNickname().equals(BmobUser.getCurrentUser(MyUser.class).getNickname())) {
-            holder.tv_delete.setVisibility(View.INVISIBLE);
-        } else {
-            holder.tv_delete.setVisibility(View.VISIBLE);
-            holder.tv_delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-                    dialog.setTitle("注意!!!");
-                    dialog.setMessage("是否确认删除当前信息?");
-                    dialog.setNegativeButton("取消", null);
-                    dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            msg.delete(new UpdateListener() {
-                                @Override
-                                public void done(BmobException e) {
-                                    if (e == null) {
-                                        Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(getContext(), "删除失败", Toast.LENGTH_SHORT).show();
+//        Log.i(TAG, "" + user.getNickname());
+//        Log.i(TAG, "" + BmobUser.getCurrentUser(MyUser.class).getNickname());
+        if (currentUser !=null) {
+            if (!user.getNickname().equals(currentUser.getNickname())) {
+                holder.tv_delete.setVisibility(View.INVISIBLE);
+            } else {
+                holder.tv_delete.setVisibility(View.VISIBLE);
+                holder.tv_delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                        dialog.setTitle("注意!!!");
+                        dialog.setMessage("是否确认删除当前信息?");
+                        dialog.setNegativeButton("取消", null);
+                        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                msg.delete(new UpdateListener() {
+                                    @Override
+                                    public void done(BmobException e) {
+                                        if (e == null) {
+                                            Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(getContext(), "删除失败", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
-                            });
-                        }
-                    });
-                    dialog.create().show();
-                }
-            });
+                                });
+                            }
+                        });
+                        dialog.create().show();
+
+                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+
+                            }
+                        });
+                    }
+                });
+            }
+        }else {
+            holder.tv_delete.setVisibility(View.INVISIBLE);
         }
+
 
         //判断是否有图片
         if (null != msg.getImagePaths()) {
