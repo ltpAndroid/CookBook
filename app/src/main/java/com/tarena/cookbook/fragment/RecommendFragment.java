@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.tarena.cookbook.R;
 import com.tarena.cookbook.activity.CookDetailsActivity;
+import com.tarena.cookbook.activity.MainActivity;
 import com.tarena.cookbook.activity.SearchActivity;
 import com.tarena.cookbook.activity.ShowCookeryActivity;
 import com.tarena.cookbook.adapter.CategoryAdapter;
@@ -28,21 +31,26 @@ import com.tarena.cookbook.adapter.MainCookAdapter;
 import com.tarena.cookbook.dataBase.CooksDBManager;
 import com.tarena.cookbook.entity.Category;
 import com.tarena.cookbook.entity.ShowCookersInfo;
+import com.tarena.cookbook.util.NetworkUtil;
+import com.tarena.cookbook.util.OkHttpUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
- * Created by Administrator on 2017/10/15 0015.
+ * Created by Administrator on 2017/10/15 0015
  */
 
 public class RecommendFragment extends Fragment {
@@ -67,6 +75,12 @@ public class RecommendFragment extends Fragment {
     private CategoryAdapter adapter;
     private MainCookAdapter cookAdapter;
     private List<Category> cookList = new ArrayList<>();
+    private String TAG = "TAG";
+    private List<ShowCookersInfo.Result.Data> info = new ArrayList<>();
+
+    private int pn = 0;
+    private String search_key;
+    private int cookId = 0;
 
 
     @Nullable
@@ -85,12 +99,12 @@ public class RecommendFragment extends Fragment {
         imagePaths = new ArrayList<>();
         imagePaths.add("http://juheimg.oss-cn-hangzhou.aliyuncs.com/cookbook/t/0/7_583507.jpg");
         imagePaths.add("http://juheimg.oss-cn-hangzhou.aliyuncs.com/cookbook/t/6/5196_525400.jpg");
-        imagePaths.add("http://juheimg.oss-cn-hangzhou.aliyuncs.com/cookbook/t/30/29081_835103.jpg");
+        imagePaths.add("http://juheimg.oss-cn-hangzhou.aliyuncs.com/cookbook/t/27/26391_301318.jpg");
 
         titles = new ArrayList<>();
         titles.add("每日推荐:糖醋排骨");
         titles.add("每日推荐:番茄鸡蛋饼");
-        titles.add("每日推荐:蒜蓉虾");
+        titles.add("每日推荐:腐乳蒜蓉虾");
 
         categoryList.clear();
         categoryList.add(0, new Category(R.drawable.chinese_cooking, "家常菜"));
@@ -110,6 +124,7 @@ public class RecommendFragment extends Fragment {
         cookList.add(3, new Category(R.drawable.scx, "午:四季豆炒香肠"));
         cookList.add(4, new Category(R.drawable.jgt, "晚:菌菇汤"));
         cookList.add(5, new Category(R.drawable.hsr, "晚:红烧肉"));
+
     }
 
 
@@ -126,6 +141,13 @@ public class RecommendFragment extends Fragment {
             }
         });
 
+        tvMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).getViewPager().setCurrentItem(1);
+            }
+        });
+
         llSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,16 +159,49 @@ public class RecommendFragment extends Fragment {
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                Intent intent = new Intent(getActivity(), ShowCookeryActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("title", titles.get(position).split(":")[1]);
-                bundle.putString("search_key", titles.get(position).split(":")[1]);
-                intent.putExtras(bundle);
-                startActivity(intent);
-//                CooksDBManager.getCooksDBManager(getActivity()).setData(info.get(1));
-//                CooksDBManager.getCooksDBManager(getActivity()).insertData(info.get(1));
-//                Intent intent = new Intent(getActivity(), CookDetailsActivity.class);
-//                startActivity(intent);
+                search_key = titles.get(position).split(":")[1];
+                Log.i(TAG, "search_key: "+search_key);
+                OkHttpUtil.sendOkHttpRequest(NetworkUtil.getURL(cookId, search_key, pn, 1), new okhttp3.Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.i(TAG, "onFailure: " + e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String responseData = response.body().string();
+                        Gson gson = new Gson();
+                        ShowCookersInfo loadInfo = gson.fromJson(responseData, ShowCookersInfo.class);
+                        Log.i(TAG, "loadInfo: " + loadInfo.toString());
+                        info.clear();
+                        info.addAll(loadInfo.getResult().getData());
+                        Log.i(TAG, "info: " + info.toString());
+
+//                        switch (search_key) {
+//                            case "糖醋排骨":
+//                                Log.i(TAG, "糖醋排骨: "+info.get(0));
+//                                CooksDBManager.getCooksDBManager(getActivity()).setData(info.get(0));
+//                                //CooksDBManager.getCooksDBManager(getActivity()).insertData(info.get(0));
+//                                break;
+//                            case "番茄鸡蛋饼":
+//                                Log.i(TAG, "番茄鸡蛋饼: "+info.get(0));
+//                                CooksDBManager.getCooksDBManager(getActivity()).setData(info.get(0));
+//                                //CooksDBManager.getCooksDBManager(getActivity()).insertData(info.get(0));
+//                                break;
+//                            case "蒜蓉虾":
+//                                Log.i(TAG, "蒜蓉虾: "+info.get(0));
+//                                CooksDBManager.getCooksDBManager(getActivity()).setData(info.get(0));
+//                                //CooksDBManager.getCooksDBManager(getActivity()).insertData(info.get(0));
+//                                break;
+//                        }
+                        CooksDBManager.getCooksDBManager(getActivity()).setData(info.get(0));
+                        CooksDBManager.getCooksDBManager(getActivity()).insertData(info.get(0));
+                        Intent intent = new Intent(getActivity(), CookDetailsActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+
             }
         });
 

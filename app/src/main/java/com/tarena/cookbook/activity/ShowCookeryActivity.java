@@ -70,21 +70,10 @@ public class ShowCookeryActivity extends AppCompatActivity {
 
         initData();
         setListener();
-
+        requestHttpData();
     }
 
     private void setListener() {
-        //        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-        //            @Override
-        //            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        //                Log.i("mycook", info.get(position).getAlbums().get(0));
-        //                CooksDBManager.getCooksDBManager(ShowCookeryActivity.this).setData(info.get((int) (position+1)));
-        //                CooksDBManager.getCooksDBManager(ShowCookeryActivity.this).insertData(info.get((int) (position+1)));
-        //                Intent intent = new Intent(ShowCookeryActivity.this, CookDetailsActivity.class);
-        //                startActivity(intent);
-        //            }
-        //        });
-
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +101,6 @@ public class ShowCookeryActivity extends AppCompatActivity {
         search_key = bundle.getString("search_key");
         cookId = bundle.getInt("id", 0);//cid
 
-        //adapter = new CookItemAdapter(R.layout.item_cooks_list,)
     }
 
 
@@ -121,8 +109,7 @@ public class ShowCookeryActivity extends AppCompatActivity {
         super.onResume();
         Log.i(TAG, "onFailure: ");
 
-        requestHttpData();
-        loadMoreData();
+        //requestHttpData();
     }
 
     private void requestHttpData() {
@@ -136,7 +123,11 @@ public class ShowCookeryActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 String responseData = response.body().string();
                 parseDataWithGson(responseData);
-                //pn += 10;
+                Log.d("77777777777777", info.toString());
+                if (info.size() >= 10) {
+                    Log.i(TAG, "onResume:" + info.size());
+                    loadMoreData();
+                }
             }
         });
     }
@@ -159,10 +150,10 @@ public class ShowCookeryActivity extends AppCompatActivity {
 
     private void parseDataWithGson(final String responseData) {
         Gson gson = new Gson();
-        ShowCookersInfo loadInfo = gson.fromJson(responseData, ShowCookersInfo.class);
+        final ShowCookersInfo loadInfo = gson.fromJson(responseData, ShowCookersInfo.class);
         Log.i(TAG, "loadInfo: " + loadInfo.toString());
-        Log.i(TAG, "loadInfo.getResult: "+loadInfo.getResult().toString());
-        Log.i(TAG, "info: "+info.toString());
+        Log.i(TAG, "loadInfo.getResult: " + loadInfo.getResult().toString());
+        Log.i(TAG, "info: " + info.toString());
         info.addAll(loadInfo.getResult().getData());
         Log.i(TAG, "info: " + info.toString());
 

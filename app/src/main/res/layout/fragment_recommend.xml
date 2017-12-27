@@ -79,6 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text="更多"
+                    android:layout_marginEnd="10dp"
                     android:textSize="14sp" />
 
             </RelativeLayout>
@@ -102,7 +103,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:padding="5dp"
                 android:background="#bfbfbf"
                 android:paddingStart="20dp"

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
 import com.tarena.cookbook.R;
 import com.tarena.cookbook.entity.Message;
 import com.tarena.cookbook.entity.MyUser;
+import com.tarena.cookbook.entity.ShowCookersInfo;
 import com.tarena.cookbook.util.DateTimeUtils;
 
 import java.text.ParseException;
@@ -36,6 +40,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class ShareFoodAdapter extends MyAdapter<Message> {
+
+
     private String TAG = "CookBook";
     private MyUser currentUser = BmobUser.getCurrentUser(MyUser.class);
 
@@ -81,9 +87,7 @@ public class ShareFoodAdapter extends MyAdapter<Message> {
             e.printStackTrace();
         }
 
-//        Log.i(TAG, "" + user.getNickname());
-//        Log.i(TAG, "" + BmobUser.getCurrentUser(MyUser.class).getNickname());
-        if (currentUser !=null) {
+        if (currentUser != null) {
             if (!user.getNickname().equals(currentUser.getNickname())) {
                 holder.tv_delete.setVisibility(View.INVISIBLE);
             } else {
@@ -121,7 +125,7 @@ public class ShareFoodAdapter extends MyAdapter<Message> {
                     }
                 });
             }
-        }else {
+        } else {
             holder.tv_delete.setVisibility(View.INVISIBLE);
         }
 
