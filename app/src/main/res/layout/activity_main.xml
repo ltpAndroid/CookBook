@@ -9,8 +9,14 @@
         android:id="@+id/vp_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/main_bottom" />
+        android:layout_above="@+id/view_line" />
 
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#9e9e9e"
+        android:layout_above="@+id/main_bottom"/>
     <include
         android:id="@+id/main_bottom"
         layout="@layout/include_bottom_menu"

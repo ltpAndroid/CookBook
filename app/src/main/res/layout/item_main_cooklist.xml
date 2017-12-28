@@ -10,16 +10,16 @@
         android:id="@+id/iv_cook_image"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY" />
 
     <TextView
-        android:padding="5dp"
-        android:textColor="#000"
         android:id="@+id/tv_cook_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:background="#ffffff"
+        android:gravity="center"
+        android:padding="5dp"
         android:text="泰式柠檬蒸鲈鱼"
-        android:textSize="20sp" />
+        android:textColor="#000"
+        android:textSize="14sp" />
 </LinearLayout>

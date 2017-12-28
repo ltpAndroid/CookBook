@@ -41,7 +41,7 @@
         android:layout_alignLeft="@+id/item_tv_nickname"
         android:layout_below="@+id/item_tv_content"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"></RelativeLayout>
+        android:layout_marginTop="10dp"/>
 
     <TextView
         android:id="@+id/item_tv_time"
@@ -54,13 +54,4 @@
         android:textColor="#6E6E6E"
         android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/item_tv_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/item_tv_time"
-        android:layout_alignParentEnd="true"
-        android:text="删除"
-        android:textColor="#0277BD"
-        android:textSize="14sp" />
 </RelativeLayout>

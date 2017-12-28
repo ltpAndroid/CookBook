@@ -34,8 +34,8 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="我的美食"
-            android:textSize="18sp"
-            android:textColor="#212121" />
+            android:textColor="#212121"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_send"
@@ -66,7 +66,7 @@
         android:layout_below="@+id/rl_title"
         android:background="@null"
         android:gravity="top"
-        android:hint="说点什么吧..."
+        android:hint="请发表你的美食作品..."
         android:maxLines="10"
         android:minHeight="150dp"
         android:paddingLeft="10dp"

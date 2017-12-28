@@ -3,12 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
 
     <ImageView
         android:id="@+id/iv_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:scaleType="fitXY"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/chinese_cooking" />
@@ -18,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="家常炒菜"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:textColor="#000"
         android:gravity="center"/>
 </LinearLayout>

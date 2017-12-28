@@ -11,9 +11,10 @@
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:searchBlockColor="#ffffff"
-        app:searchBlockHeight="150"
-        app:textColorSearch="#3F51B5"
+        app:searchBlockColor="#e0e0e0"
+        app:searchBlockHeight="120"
+        app:textColorSearch="#424242"
+        android:padding="5dp"
         app:textHintSearch="输入查询关键字"
-        app:textSizeSearch="8dp" />
+        app:textSizeSearch="5dp" />
 </LinearLayout>

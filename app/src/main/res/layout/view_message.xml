@@ -38,6 +38,16 @@
         android:textSize="14sp" />
 
     <TextView
+        android:id="@+id/tv_msg_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/item_msg_time"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:text="删除"
+        android:textColor="#0277BD" />
+
+    <TextView
         android:id="@+id/item_msg_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,9 +64,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/item_msg_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
-    </RelativeLayout>
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"/>
 </RelativeLayout>

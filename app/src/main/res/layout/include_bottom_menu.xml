@@ -7,8 +7,8 @@
     <RadioGroup
         android:id="@+id/rg_cookBook_menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bottom_bg"
+        android:layout_height="match_parent"
+        android:background="#F5F5F5"
         android:orientation="horizontal">
 
         <RadioButton
@@ -17,6 +17,7 @@
             android:checked="true"
             android:drawableTop="@drawable/food"
             android:text="美食推荐"
+            android:textSize="12sp"
             android:textColor="@drawable/text_color" />
 
         <RadioButton
@@ -24,6 +25,7 @@
             style="@style/radio_group"
             android:drawableTop="@drawable/classify"
             android:text="菜谱大全"
+            android:textSize="12sp"
             android:textColor="@drawable/text_color" />
 
         <RadioButton
@@ -31,6 +33,7 @@
             style="@style/radio_group"
             android:drawableTop="@drawable/shared"
             android:text="邻里厨房"
+            android:textSize="12sp"
             android:textColor="@drawable/text_color"/>
 
         <RadioButton
@@ -38,6 +41,7 @@
             style="@style/radio_group"
             android:drawableTop="@drawable/more"
             android:text="更多"
+            android:textSize="12sp"
             android:textColor="@drawable/text_color"/>
     </RadioGroup>
 

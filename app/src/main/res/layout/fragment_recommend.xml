@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:background="#cdcdcd">
+            android:background="#EEEEEE">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="想吃什么点这里..."
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <ImageView
@@ -49,7 +49,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="5dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,28 +60,36 @@
             <com.youth.banner.Banner
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="250dp" />
+                android:layout_height="200dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp">
 
                 <TextView
+                    android:id="@+id/tv_more_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
+                    android:drawablePadding="3dp"
+                    android:drawableStart="@drawable/icon_class"
+                    android:gravity="center_vertical"
                     android:text="常见菜式分类"
-                    android:textSize="18sp" />
+                    android:textColor="#4FC3F7" />
 
                 <TextView
                     android:id="@+id/tv_more_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:text="更多"
                     android:layout_marginEnd="10dp"
-                    android:textSize="14sp" />
+                    android:drawableRight="@drawable/next"
+                    android:layout_alignBottom="@id/tv_more_title"
+                    android:gravity="center_vertical"
+                    android:text="更多"
+                    android:textSize="12sp" />
 
             </RelativeLayout>
 
@@ -94,28 +103,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
                 android:background="#bfbfbf"
-                android:horizontalSpacing="2dp"
+                android:horizontalSpacing="1dp"
                 android:listSelector="#00000000"
                 android:numColumns="3"
-                android:verticalSpacing="2dp" />
+                android:verticalSpacing="1dp" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#9e9e9e" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:drawablePadding="3dp"
+                android:drawableStart="@drawable/icon_food"
+                android:gravity="center_vertical"
                 android:padding="5dp"
-                android:background="#bfbfbf"
                 android:paddingStart="20dp"
                 android:text="每日三餐"
-                android:textSize="18sp" />
+                android:textColor="#4FC3F7" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_recommend"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#bfbfbf" />
+                android:layout_height="560dp"
+                android:background="#EEEEEE"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp" />
         </LinearLayout>
 
     </ScrollView>

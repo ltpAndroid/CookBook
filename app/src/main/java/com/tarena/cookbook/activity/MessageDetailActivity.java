@@ -1,5 +1,7 @@
 package com.tarena.cookbook.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -32,6 +34,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessageDetailActivity extends AppCompatActivity {
@@ -50,9 +53,11 @@ public class MessageDetailActivity extends AppCompatActivity {
     TextView tvNickname;
     TextView tvTime;
     RelativeLayout layout_images;
+    TextView tvDelete;
 
     private Message message;
     private CommentAdapter adapter;
+    private MyUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,7 @@ public class MessageDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message_detail);
         ButterKnife.bind(this);
 
+        currentUser = BmobUser.getCurrentUser(MyUser.class);
         initHeaderView();
     }
 
@@ -72,6 +78,7 @@ public class MessageDetailActivity extends AppCompatActivity {
         tvTime = messageView.findViewById(R.id.item_msg_time);
         layout_images = messageView.findViewById(R.id.item_msg_imagesLayout);
         ivHead = messageView.findViewById(R.id.item_msg_head);
+        tvDelete = messageView.findViewById(R.id.tv_msg_delete);
 
         //得到传递过来的消息对象
         message = (Message) getIntent().getExtras().get("msg");
@@ -87,6 +94,44 @@ public class MessageDetailActivity extends AppCompatActivity {
             tvTime.setText(DateTimeUtils.formatDate(millis));
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+
+        //删除信息:tvDelete
+        MyUser user = message.getUser();
+        if (currentUser != null) {
+            if (!user.getNickname().equals(currentUser.getNickname())) {
+                tvDelete.setVisibility(View.INVISIBLE);
+            } else {
+                tvDelete.setVisibility(View.VISIBLE);
+                tvDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(MessageDetailActivity.this);
+                        dialog.setTitle("注意!!!");
+                        dialog.setMessage("是否确认删除当前信息?");
+                        dialog.setNegativeButton("取消", null);
+                        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                message.delete(new UpdateListener() {
+                                    @Override
+                                    public void done(BmobException e) {
+                                        if (e == null) {
+                                            Toast.makeText(MessageDetailActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        } else {
+                                            Toast.makeText(MessageDetailActivity.this, "删除失败", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                        dialog.create().show();
+                    }
+                });
+            }
+        } else {
+            tvDelete.setVisibility(View.INVISIBLE);
         }
 
         //判断是否有图片
@@ -117,7 +162,8 @@ public class MessageDetailActivity extends AppCompatActivity {
 
         if (imagePaths.size() == 1) {
             ImageView iv = new ImageView(this);
-            layout_images.addView(iv, new RelativeLayout.LayoutParams(800, 500));
+            iv.setScaleType(ImageView.ScaleType.FIT_XY);
+            layout_images.addView(iv, new RelativeLayout.LayoutParams(600, 600));
             Picasso.with(this).load(imagePaths.get(0)).into(iv);
 
         } else {
