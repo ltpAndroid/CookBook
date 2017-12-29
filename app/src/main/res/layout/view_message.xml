@@ -21,8 +21,8 @@
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/item_msg_head"
         android:text="123"
-        android:textColor="#000000"
-        android:textSize="14sp" />
+        android:textColor="#1296db"
+        android:textSize="16sp" />
 
 
     <TextView
@@ -34,8 +34,7 @@
         android:layout_marginTop="9dp"
         android:layout_toRightOf="@+id/item_msg_head"
         android:text="234"
-        android:textColor="#6E6E6E"
-        android:textSize="14sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tv_msg_delete"
@@ -45,6 +44,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
         android:text="删除"
+        android:textSize="12sp"
         android:textColor="#0277BD" />
 
     <TextView
@@ -52,20 +52,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/item_msg_head"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_alignLeft="@+id/item_msg_nickname"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
         android:text="345"
-        android:textColor="#A1A1A1"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
     <RelativeLayout
         android:id="@+id/item_msg_imagesLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/item_msg_content"
+        android:layout_alignLeft="@+id/item_msg_nickname"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"/>
 </RelativeLayout>

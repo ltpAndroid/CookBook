@@ -50,7 +50,7 @@ dependencies {
     compile 'com.kaopiz:kprogresshud:1.1.0'
     compile 'com.youth.banner:banner:1.4.10'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-    compile 'com.github.pinguo-zhouwei:CustomPopwindow:2.1.1'
+    //compile 'com.github.pinguo-zhouwei:CustomPopwindow:2.1.1'
     compile 'com.carson_ho:SearchLayout:1.0.1'
     compile 'com.zt.maven.widget:refreshview:1.0.2'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'

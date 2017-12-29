@@ -155,14 +155,13 @@ public class MessageDetailActivity extends AppCompatActivity {
         layout_images.removeAllViews();
 
         //获取屏幕宽度
-        int scrrenWidth = this.getResources().getDisplayMetrics().widthPixels - 80;
+        int scrrenWidth = this.getResources().getDisplayMetrics().widthPixels - 300;
         // int scrrenWidth = layout_images.getWidth();
         int size = (scrrenWidth - 2 * 8) / 3;
 
 
         if (imagePaths.size() == 1) {
             ImageView iv = new ImageView(this);
-            iv.setScaleType(ImageView.ScaleType.FIT_XY);
             layout_images.addView(iv, new RelativeLayout.LayoutParams(600, 600));
             Picasso.with(this).load(imagePaths.get(0)).into(iv);
 

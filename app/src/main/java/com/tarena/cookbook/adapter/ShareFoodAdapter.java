@@ -101,13 +101,12 @@ public class ShareFoodAdapter extends MyAdapter<Message> {
         layout_images.removeAllViews();
 
         //获取屏幕宽度
-        int scrrenWidth = getContext().getResources().getDisplayMetrics().widthPixels - 170;
-        // int scrrenWidth = layout_images.getWidth();
+        int scrrenWidth = getContext().getResources().getDisplayMetrics().widthPixels - 300;
+        //int scrrenWidth = layout_images.getWidth();
         int size = (scrrenWidth - 2 * 10) / 3;
 
         if (imagePaths.size() == 1) {
             ImageView iv = new ImageView(getContext());
-            iv.setScaleType(ImageView.ScaleType.FIT_XY);
             layout_images.addView(iv, new RelativeLayout.LayoutParams(600, 600));
             Picasso.with(getContext()).load(imagePaths.get(0)).into(iv);
 

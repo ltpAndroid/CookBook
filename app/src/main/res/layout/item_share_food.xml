@@ -31,8 +31,7 @@
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/item_iv_head"
         android:text="345"
-        android:textColor="#A1A1A1"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
     <RelativeLayout
         android:id="@+id/imagesLayout"
@@ -51,7 +50,6 @@
         android:layout_below="@+id/imagesLayout"
         android:layout_marginTop="10dp"
         android:text="234"
-        android:textColor="#6E6E6E"
-        android:textSize="14sp" />
+        android:textSize="12sp" />
 
 </RelativeLayout>
